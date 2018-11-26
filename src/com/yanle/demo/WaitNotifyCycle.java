@@ -1,8 +1,5 @@
 package com.yanle.demo;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 public class WaitNotifyCycle {
     static boolean flag = true;
 
@@ -22,12 +19,15 @@ public class WaitNotifyCycle {
     static class Wait implements Runnable {
         @Override
         public void run() {
-            while (true) {
+            outer:while (number <= 20) {
                 synchronized (lock) {
-                    while (flag && number<=20) {
+                    while (flag) {
                         try {
-                            System.out.println(Thread.currentThread() + "flag is true.wait@" + new SimpleDateFormat("HH:mm:ss").format(new Date()));
-                            System.out.println(number);
+                            if (number > 20) {
+                                lock.notifyAll();
+                                break outer;
+                            }
+                            System.out.println(Thread.currentThread() + ":" + number);
                             number = number + 1;
                             flag = false;
                             lock.wait();
@@ -45,11 +45,15 @@ public class WaitNotifyCycle {
 
         @Override
         public void run() {
+            outer:
             while (true) {
                 synchronized (lock) {
-                    while (!flag && number<=20){
-                        System.out.println(Thread.currentThread() + "hold lock .notify@" + new SimpleDateFormat("HH:mm:ss").format(new Date()));
-                        System.out.println(number);
+                    while (!flag) {
+                        if (number > 20) {
+                            lock.notifyAll();
+                            break outer;
+                        }
+                        System.out.println(Thread.currentThread() + ":" + number);
                         number = number + 1;
                         lock.notifyAll();
                         flag = true;
