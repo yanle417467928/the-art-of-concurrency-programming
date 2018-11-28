@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/the-art-of-concurrency-programming.iml" filepath="$PROJECT_DIR$/the-art-of-concurrency-programming.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/the-art-of-concurrency-programming.iml" filepath="$PROJECT_DIR$/.idea/the-art-of-concurrency-programming.iml" />
     </modules>
   </component>
 </project>
